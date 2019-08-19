@@ -14,7 +14,7 @@ dataset.setSpriteMetadata({
 
 let lastSelectedPoints: number[] = [];
 
-const projector = new ScatterGL({
+const scatterGL = new ScatterGL({
   containerElement,
   onHover: (point: number | null) => {
     const message = `🔥hover ${point}`;
@@ -44,9 +44,9 @@ document
   .forEach(inputElement => {
     inputElement.addEventListener('change', () => {
       if (inputElement.value === 'pan') {
-        projector.setPanMode();
+        scatterGL.setPanMode();
       } else if (inputElement.value === 'select') {
-        projector.setSelectMode();
+        scatterGL.setSelectMode();
       }
     });
   });
@@ -56,11 +56,11 @@ document
   .forEach(inputElement => {
     inputElement.addEventListener('change', () => {
       if (inputElement.value === 'points') {
-        projector.setPointRenderMode();
+        scatterGL.setPointRenderMode();
       } else if (inputElement.value === 'sprites') {
-        projector.setSpriteRenderMode();
+        scatterGL.setSpriteRenderMode();
       } else if (inputElement.value === 'text') {
-        projector.setTextRenderMode();
+        scatterGL.setTextRenderMode();
       }
     });
   });
@@ -75,12 +75,20 @@ document
   .forEach(inputElement => {
     inputElement.addEventListener('change', () => {
       if (inputElement.value === 'default') {
-        projector.setPointColorer(null);
+        scatterGL.setPointColorer(null);
       } else if (inputElement.value === 'label') {
-        projector.setPointColorer(i => {
+        scatterGL.setPointColorer(i => {
           const labelIndex = dataset.metadata![i].labelIndex as number;
           return colorsByLabel[labelIndex];
         });
       }
     });
   });
+
+const dimensionsToggle = document.querySelector<HTMLInputElement>(
+  'input[name="3D"]'
+)!;
+dimensionsToggle.addEventListener('change', (e: any) => {
+  const is3D = dimensionsToggle.checked;
+  scatterGL.setDimensions(is3D ? 3 : 2);
+});

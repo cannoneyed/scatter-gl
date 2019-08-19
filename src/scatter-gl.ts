@@ -139,6 +139,17 @@ export class ScatterGL {
     this.scatterPlot.setInteractionMode(InteractionMode.SELECT);
   }
 
+  setDimensions(nDimensions: number) {
+    const outsideRange = nDimensions < 2 || nDimensions > 3;
+    const moreThanDataset = nDimensions > this.dataset.dimensions;
+    if (outsideRange || moreThanDataset) {
+      throw new RangeError('Setting invalid dimensionality');
+    } else {
+      this.scatterPlot.setDimensions(nDimensions);
+      this.scatterPlot.render();
+    }
+  }
+
   setPointColorer(pointColorer: PointColorer | null) {
     this.pointColorer = pointColorer;
     this.updateScatterPlotAttributes();

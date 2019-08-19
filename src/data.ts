@@ -18,7 +18,8 @@ limitations under the License.
  * where the value can be a string or a number.
  */
 export interface PointMetadata {
-  [key: string]: number | string;
+  label?: string;
+  [key: string]: number | string | undefined;
 }
 
 /** Matches the json format of `projector_config.proto` */
